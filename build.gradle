@@ -63,11 +63,12 @@ dependencies {
     //modCompileOnly("io.vram:canvas-fabric-mc119:1.0.+") { transitive = false } // TODO: 1.19.3
     modCompileOnly("maven.modrinth:indium:${project.indium_version}") { transitive = false }
     modCompileOnly("de.florianmichael:ViaFabricPlus:${project.viafabricplus_version}") { transitive = false }
-
+    // implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
     // Baritone (https://github.com/MeteorDevelopment/baritone)
     modCompileOnly "meteordevelopment:baritone:${project.baritone_version}-SNAPSHOT"
 
     // Libraries
+    library 'org.xerial:sqlite-jdbc:3.36.0.3'
     library "meteordevelopment:orbit:${project.orbit_version}"
     library "meteordevelopment:starscript:${project.starscript_version}"
     library "meteordevelopment:discord-ipc:${project.discordipc_version}"
@@ -75,6 +76,7 @@ dependencies {
     library("io.netty:netty-handler-proxy:${project.netty_version}") { transitive = false }
     library("io.netty:netty-codec-socks:${project.netty_version}") { transitive = false }
     library "de.florianmichael:WaybackAuthLib:1.0.0"
+
 
     // Launch sub project
     shadow project(":launch")

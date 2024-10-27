@@ -9,5 +9,8 @@ public enum ElytraFlightModes {
     Vanilla,
     Packet,
     Pitch40,
-    Bounce
+    Bounce,
+    Pitch40Explore,
+    FollowNetherTrails,
+    FollowOverworldTrails
 }

@@ -16,12 +16,16 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.Packet;
 import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.Pitch40;
+import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.Pitch40Explore;
+import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.FollowNetherTrails;
+import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.FollowOverworldTrails;
 import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.Bounce;
 import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.Vanilla;
 import meteordevelopment.meteorclient.systems.modules.player.ChestSwap;
 import meteordevelopment.meteorclient.systems.modules.player.Rotation;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
 import meteordevelopment.orbit.EventHandler;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
@@ -40,6 +44,7 @@ public class ElytraFly extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgInventory = settings.createGroup("Inventory");
     private final SettingGroup sgAutopilot = settings.createGroup("Autopilot");
+    private Pitch40Explore pitch40Explore;
 
     // General
 
@@ -56,7 +61,11 @@ public class ElytraFly extends Module {
         .name("auto-take-off")
         .description("Automatically takes off when you hold jump without needing to double jump.")
         .defaultValue(false)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40 && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40
+                    && flightMode.get() != ElytraFlightModes.Pitch40Explore
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.Bounce)
         .build()
     );
 
@@ -65,7 +74,11 @@ public class ElytraFly extends Module {
         .description("Controls how fast will you go down naturally.")
         .defaultValue(0.01)
         .min(0)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40 && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40
+                    && flightMode.get() != ElytraFlightModes.Pitch40Explore
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.Bounce)
         .build()
     );
 
@@ -74,7 +87,11 @@ public class ElytraFly extends Module {
         .description("How fast you go forward and backward.")
         .defaultValue(1)
         .min(0)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40 && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40
+                    && flightMode.get() != ElytraFlightModes.Pitch40Explore
+                    && flightMode.get() != ElytraFlightModes.Bounce
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
         .build()
     );
 
@@ -83,14 +100,22 @@ public class ElytraFly extends Module {
         .description("How fast you go up and down.")
         .defaultValue(1)
         .min(0)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40 && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40
+                    && flightMode.get() != ElytraFlightModes.Pitch40Explore
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.Bounce)
         .build()
     );
 
     public final Setting<Boolean> acceleration = sgGeneral.add(new BoolSetting.Builder()
         .name("acceleration")
         .defaultValue(false)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40 && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40
+                    && flightMode.get() != ElytraFlightModes.Pitch40Explore
+                    && flightMode.get() != ElytraFlightModes.Bounce
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
         .build()
     );
 
@@ -99,7 +124,11 @@ public class ElytraFly extends Module {
         .min(0.1)
         .max(5)
         .defaultValue(1)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40 && acceleration.get() && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40
+                    && flightMode.get() != ElytraFlightModes.Pitch40Explore && acceleration.get()
+                    && flightMode.get() != ElytraFlightModes.Bounce
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
         .build()
     );
 
@@ -107,7 +136,11 @@ public class ElytraFly extends Module {
         .name("acceleration-start")
         .min(0.1)
         .defaultValue(0)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40 && acceleration.get() && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40
+                    && flightMode.get() != ElytraFlightModes.Pitch40Explore && acceleration.get()
+                    && flightMode.get() != ElytraFlightModes.Bounce
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
         .build()
     );
 
@@ -115,7 +148,9 @@ public class ElytraFly extends Module {
         .name("stop-in-water")
         .description("Stops flying in water.")
         .defaultValue(true)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Bounce
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
         .build()
     );
 
@@ -130,7 +165,9 @@ public class ElytraFly extends Module {
         .name("auto-hover")
         .description("Automatically hover .3 blocks off ground when holding shift.")
         .defaultValue(false)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Bounce
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
         .build()
     );
 
@@ -138,7 +175,9 @@ public class ElytraFly extends Module {
         .name("no-crash")
         .description("Stops you from going into walls.")
         .defaultValue(false)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Bounce
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
         .build()
     );
 
@@ -148,7 +187,9 @@ public class ElytraFly extends Module {
         .defaultValue(5)
         .range(1, 15)
         .sliderMin(1)
-        .visible(() -> noCrash.get() && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> noCrash.get() && flightMode.get() != ElytraFlightModes.Bounce
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
         .build()
     );
 
@@ -156,7 +197,9 @@ public class ElytraFly extends Module {
         .name("insta-drop")
         .description("Makes you drop out of flight instantly.")
         .defaultValue(false)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Bounce
+                    && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
         .build()
     );
 
@@ -179,6 +222,60 @@ public class ElytraFly extends Module {
         .visible(() -> flightMode.get() == ElytraFlightModes.Pitch40)
         .build()
     );
+
+    public final Setting<Double> followOverworldTrailsLowerBounds = sgGeneral.add(new DoubleSetting.Builder()
+            .name("follow-overworld-trails-lower-bounds")
+            .description("The bottom height boundary for follow overworld trails.")
+            .defaultValue(80)
+            .min(-128)
+            .sliderMax(360)
+            .visible(() -> flightMode.get() == ElytraFlightModes.FollowOverworldTrails)
+            .build());
+
+    public final Setting<Double> followOverworldTrailsUpperBounds = sgGeneral.add(new DoubleSetting.Builder()
+            .name("follow-overworld-trails-upper-bounds")
+            .description("The upper height boundary for follow overworld trails.")
+            .defaultValue(120)
+            .min(-128)
+            .sliderMax(360)
+            .visible(() -> flightMode.get() == ElytraFlightModes.FollowOverworldTrails)
+            .build());
+
+    public final Setting<String> xaeroPlusDbPath = sgGeneral.add(new StringSetting.Builder()
+            .name("xaero-plus-db-path")
+            .description("The XaeroPlus database path.")
+            .defaultValue(
+                    FabricLoader.getInstance().getGameDir().resolve("xaero").toString()
+                            + "/world-map/Multiplayer_2b2t.org/XaeroPlusOldChunks.db")
+            .visible(() -> flightMode.get() == ElytraFlightModes.FollowNetherTrails
+                    || flightMode.get() == ElytraFlightModes.FollowOverworldTrails)
+            .build());
+
+    public final Setting<Double> pitch40ExploreSquareSize = sgGeneral.add(new DoubleSetting.Builder()
+            .name("pitch40explore-square-size")
+            .description("The size of the square to scan in pitch40explore.")
+            .defaultValue(10000)
+            .min(1000)
+            .sliderMax(1000000)
+            .visible(() -> flightMode.get() == ElytraFlightModes.Pitch40Explore)
+            .build());
+
+    public final Setting<Double> pitch40ExploreLineHeight = sgGeneral.add(new DoubleSetting.Builder()
+            .name("pitch40explore-line-height")
+            .description("The height of the line to scan in pitch40explore.")
+            .defaultValue(500)
+            .min(50)
+            .sliderMax(10000)
+            .visible(() -> flightMode.get() == ElytraFlightModes.Pitch40Explore)
+            .build());
+
+    public final Setting<Boolean> pitch40ExploreRememberPosition = sgGeneral.add(new BoolSetting.Builder()
+            .name("pitch40explore-remember-position")
+            .description("Whether to remember the position when you toggle the module.")
+            .defaultValue(true)
+            .visible(() -> flightMode.get() == ElytraFlightModes.Pitch40Explore)
+            .build());
+
 
     public final Setting<Double> pitch40rotationSpeed = sgGeneral.add(new DoubleSetting.Builder()
         .name("pitch40-rotate-speed")
@@ -301,7 +398,9 @@ public class ElytraFly extends Module {
         .name("auto-pilot")
         .description("Moves forward while elytra flying.")
         .defaultValue(false)
-        .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40 && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> flightMode.get() != ElytraFlightModes.Pitch40
+                    && flightMode.get() != ElytraFlightModes.Pitch40Explore
+                    && flightMode.get() != ElytraFlightModes.Bounce)
         .build()
     );
 
@@ -309,7 +408,9 @@ public class ElytraFly extends Module {
         .name("use-fireworks")
         .description("Uses firework rockets every second of your choice.")
         .defaultValue(false)
-        .visible(() -> autoPilot.get() && flightMode.get() != ElytraFlightModes.Pitch40 && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> autoPilot.get() && flightMode.get() != ElytraFlightModes.Pitch40
+                    && flightMode.get() != ElytraFlightModes.Pitch40Explore
+                    && flightMode.get() != ElytraFlightModes.Bounce)
         .build()
     );
 
@@ -319,7 +420,9 @@ public class ElytraFly extends Module {
         .min(1)
         .defaultValue(8)
         .sliderMax(20)
-        .visible(() -> useFireworks.get() && flightMode.get() != ElytraFlightModes.Pitch40 && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> useFireworks.get() && flightMode.get() != ElytraFlightModes.Pitch40
+                    && flightMode.get() != ElytraFlightModes.Pitch40Explore
+                    && flightMode.get() != ElytraFlightModes.Bounce)
         .build()
     );
 
@@ -329,7 +432,9 @@ public class ElytraFly extends Module {
         .defaultValue(120)
         .min(-128)
         .sliderMax(260)
-        .visible(() -> autoPilot.get() && flightMode.get() != ElytraFlightModes.Pitch40 && flightMode.get() != ElytraFlightModes.Bounce)
+            .visible(() -> autoPilot.get() && flightMode.get() != ElytraFlightModes.Pitch40
+                    && flightMode.get() != ElytraFlightModes.Pitch40Explore
+                    && flightMode.get() != ElytraFlightModes.Bounce)
         .build()
     );
 
@@ -481,6 +586,19 @@ public class ElytraFly extends Module {
             case Pitch40 -> {
                 currentMode = new Pitch40();
                 autoPilot.set(false); // Pitch 40 is an autopilot of its own
+            }
+            case Pitch40Explore -> {
+                if (pitch40Explore == null) {
+                    pitch40Explore = new Pitch40Explore();
+                }
+                currentMode = pitch40Explore;
+                autoPilot.set(false); // Pitch 40 spiral is an autopilot of its own
+            }
+            case FollowNetherTrails -> {
+                currentMode = new FollowNetherTrails();
+            }
+            case FollowOverworldTrails -> {
+                currentMode = new FollowOverworldTrails();
             }
             case Bounce -> currentMode = new Bounce();
         }
