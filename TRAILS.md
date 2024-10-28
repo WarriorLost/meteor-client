@@ -26,18 +26,29 @@ Once you have done that, follow these steps:
 
 ### Meteor Client
 
-1. Run the build command:
+1. Clone the Meteor Client repository:
+   ```bash
+   git clone git@github.com:WarriorLost/meteor-client.git
+   ```
+
+2. Run the build command:
    ```bash
    ./gradlew build
    ```
-2. Copy the generated JAR file to your Minecraft mods folder:
+3. Copy the generated JAR file to your Minecraft mods folder:
    ```bash
    cp build/libs/meteor-client-0.5.8.jar /path/to/your/minecraft/mods/
    ```
 
 ### XaeroPlus
 
-1. Run the build command:
+1. Clone the XaeroPlus repository:
+   ```bash
+   git clone git@github.com:WarriorLost/XaeroPlus.git
+   git checkout 1.21
+   ```
+
+2. Run the build command:
    ```bash
    ./gradlew build
    ```
