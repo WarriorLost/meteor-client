@@ -20,6 +20,7 @@ import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.P
 import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.FollowNetherTrails;
 import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.FollowOverworldTrails;
 import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.Bounce;
+import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.FollowEndTrails;
 import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.Vanilla;
 import meteordevelopment.meteorclient.systems.modules.player.ChestSwap;
 import meteordevelopment.meteorclient.systems.modules.player.Rotation;
@@ -65,6 +66,7 @@ public class ElytraFly extends Module {
                     && flightMode.get() != ElytraFlightModes.Pitch40Explore
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
                     && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails
                     && flightMode.get() != ElytraFlightModes.Bounce)
         .build()
     );
@@ -78,6 +80,7 @@ public class ElytraFly extends Module {
                     && flightMode.get() != ElytraFlightModes.Pitch40Explore
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
                     && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails
                     && flightMode.get() != ElytraFlightModes.Bounce)
         .build()
     );
@@ -91,7 +94,8 @@ public class ElytraFly extends Module {
                     && flightMode.get() != ElytraFlightModes.Pitch40Explore
                     && flightMode.get() != ElytraFlightModes.Bounce
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
-                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails)
         .build()
     );
 
@@ -104,6 +108,7 @@ public class ElytraFly extends Module {
                     && flightMode.get() != ElytraFlightModes.Pitch40Explore
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
                     && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails
                     && flightMode.get() != ElytraFlightModes.Bounce)
         .build()
     );
@@ -115,6 +120,7 @@ public class ElytraFly extends Module {
                     && flightMode.get() != ElytraFlightModes.Pitch40Explore
                     && flightMode.get() != ElytraFlightModes.Bounce
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails
                     && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
         .build()
     );
@@ -128,7 +134,8 @@ public class ElytraFly extends Module {
                     && flightMode.get() != ElytraFlightModes.Pitch40Explore && acceleration.get()
                     && flightMode.get() != ElytraFlightModes.Bounce
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
-                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails)
         .build()
     );
 
@@ -140,7 +147,8 @@ public class ElytraFly extends Module {
                     && flightMode.get() != ElytraFlightModes.Pitch40Explore && acceleration.get()
                     && flightMode.get() != ElytraFlightModes.Bounce
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
-                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails)
         .build()
     );
 
@@ -150,7 +158,8 @@ public class ElytraFly extends Module {
         .defaultValue(true)
             .visible(() -> flightMode.get() != ElytraFlightModes.Bounce
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
-                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails)
         .build()
     );
 
@@ -167,7 +176,8 @@ public class ElytraFly extends Module {
         .defaultValue(false)
             .visible(() -> flightMode.get() != ElytraFlightModes.Bounce
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
-                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails)
         .build()
     );
 
@@ -177,7 +187,8 @@ public class ElytraFly extends Module {
         .defaultValue(false)
             .visible(() -> flightMode.get() != ElytraFlightModes.Bounce
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
-                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails)
         .build()
     );
 
@@ -189,7 +200,8 @@ public class ElytraFly extends Module {
         .sliderMin(1)
             .visible(() -> noCrash.get() && flightMode.get() != ElytraFlightModes.Bounce
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
-                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails)
         .build()
     );
 
@@ -199,7 +211,8 @@ public class ElytraFly extends Module {
         .defaultValue(false)
             .visible(() -> flightMode.get() != ElytraFlightModes.Bounce
                     && flightMode.get() != ElytraFlightModes.FollowNetherTrails
-                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails)
+                    && flightMode.get() != ElytraFlightModes.FollowOverworldTrails
+                    && flightMode.get() != ElytraFlightModes.FollowEndTrails)
         .build()
     );
 
@@ -223,13 +236,21 @@ public class ElytraFly extends Module {
         .build()
     );
 
+    public final Setting<Boolean> followOverworldTrailsOnlyYawControl = sgGeneral.add(new BoolSetting.Builder()
+            .name("follow-overworld-trails-only-yaw-control")
+            .description("Whether to only control the player direction (yaw)")
+            .defaultValue(false)
+            .visible(() -> flightMode.get() == ElytraFlightModes.FollowOverworldTrails)
+            .build());
+
     public final Setting<Double> followOverworldTrailsLowerBounds = sgGeneral.add(new DoubleSetting.Builder()
             .name("follow-overworld-trails-lower-bounds")
             .description("The bottom height boundary for follow overworld trails.")
             .defaultValue(80)
             .min(-128)
             .sliderMax(360)
-            .visible(() -> flightMode.get() == ElytraFlightModes.FollowOverworldTrails)
+            .visible(() -> flightMode.get() == ElytraFlightModes.FollowOverworldTrails
+                    && !followOverworldTrailsOnlyYawControl.get())
             .build());
 
     public final Setting<Double> followOverworldTrailsUpperBounds = sgGeneral.add(new DoubleSetting.Builder()
@@ -238,7 +259,34 @@ public class ElytraFly extends Module {
             .defaultValue(120)
             .min(-128)
             .sliderMax(360)
-            .visible(() -> flightMode.get() == ElytraFlightModes.FollowOverworldTrails)
+            .visible(() -> flightMode.get() == ElytraFlightModes.FollowOverworldTrails
+                    && !followOverworldTrailsOnlyYawControl.get())
+            .build());
+
+    public final Setting<Boolean> followEndTrailsOnlyYawControl = sgGeneral.add(new BoolSetting.Builder()
+            .name("follow-end-trails-only-yaw-control")
+            .description("Whether to only control the player direction (yaw)")
+            .defaultValue(false)
+            .visible(() -> flightMode.get() == ElytraFlightModes.FollowEndTrails)
+            .build());
+    public final Setting<Double> followEndTrailsLowerBounds = sgGeneral.add(new DoubleSetting.Builder()
+            .name("follow-end-trails-lower-bounds")
+            .description("The bottom height boundary for follow end trails.")
+            .defaultValue(120)
+            .min(-128)
+            .sliderMax(360)
+            .visible(() -> flightMode.get() == ElytraFlightModes.FollowEndTrails
+                    && !followEndTrailsOnlyYawControl.get())
+            .build());
+
+    public final Setting<Double> followEndTrailsUpperBounds = sgGeneral.add(new DoubleSetting.Builder()
+            .name("follow-end-trails-upper-bounds")
+            .description("The upper height boundary for follow end trails.")
+            .defaultValue(160)
+            .min(-128)
+            .sliderMax(360)
+            .visible(() -> flightMode.get() == ElytraFlightModes.FollowEndTrails
+                    && !followEndTrailsOnlyYawControl.get())
             .build());
 
     public final Setting<String> xaeroPlusDbPath = sgGeneral.add(new StringSetting.Builder()
@@ -599,6 +647,9 @@ public class ElytraFly extends Module {
             }
             case FollowOverworldTrails -> {
                 currentMode = new FollowOverworldTrails();
+            }
+            case FollowEndTrails -> {
+                currentMode = new FollowEndTrails();
             }
             case Bounce -> currentMode = new Bounce();
         }
